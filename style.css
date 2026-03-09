@@ -9,4 +9,66 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #2b2a2a;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+#gameArea {
+  width: 350px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.gameRow {
+  display: contents;
+}
+
+.rowCell {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border: 2px solid #666;
+  background: rgb(97, 97, 97);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#resetBtn {
+  width: 100px;
+  aspect-ratio: 2/1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: white;
+  padding: 12px 24px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#resetBtn:hover {
+  background: rgba(229, 255, 0, 0.712);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+#resetBtn:active {
+  transform: translateY(0);
+  background: rgba(0, 255, 42, 0.705);
 }

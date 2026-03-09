@@ -1,4 +1,4 @@
-const gameArea = document.getElementById("game");
+const gameArea = document.getElementById("gameArea");
 
 function gameStart() {
   for (let i = 0; i < 6; i++) {
@@ -9,6 +9,7 @@ function gameStart() {
       rowCell.classList.add("rowCell");
       gameRow.appendChild(rowCell);
     }
+    gameArea.appendChild(gameRow);
   }
 }
 
