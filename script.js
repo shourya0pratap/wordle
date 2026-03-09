@@ -14,3 +14,15 @@ function gameStart() {
 }
 
 gameStart();
+
+let currentRowIndex = 0;
+
+function handleInput(letter) {
+  const rows = document.querySelectorAll(".gameRow");
+  const currentRow = rows[currentRowIndex];
+  const cells = currentRow.querySelectorAll(".rowCell");
+}
+
+gameArea.addEventListener("click",(e) => {
+    
+});
