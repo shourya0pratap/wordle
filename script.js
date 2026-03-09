@@ -1,6 +1,8 @@
+import { WORDS } from "./words.js";
 const gameArea = document.getElementById("gameArea");
 
 function gameStart() {
+  const secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   for (let i = 0; i < 6; i++) {
     const gameRow = document.createElement("div");
     gameRow.classList.add("gameRow");
@@ -15,6 +17,10 @@ function gameStart() {
 
 gameStart();
 
+function gameReset() {
+  const secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+}
+
 let currentRowIndex = 0;
 
 function handleInput(letter) {
@@ -23,6 +29,4 @@ function handleInput(letter) {
   const cells = currentRow.querySelectorAll(".rowCell");
 }
 
-gameArea.addEventListener("click",(e) => {
-    
-});
+gameArea.addEventListener("click", (e) => {});
