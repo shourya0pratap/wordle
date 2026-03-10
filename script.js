@@ -20,8 +20,25 @@ function gameStart() {
 gameStart();
 
 function gameReset() {
-  const secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+  // 1. Reset logic variables
+  secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+  currentRowIndex = 0;
+  currentWord = "";
+  currentCellIndex = 0;
+  guesses = 0;
+
+  // 2. Clear the UI
+  const cells = document.querySelectorAll(".rowCell");
+  cells.forEach((cell) => {
+    cell.textContent = "";
+    cell.style.background = "rgb(97, 97, 97)";
+    cell.style.color = "black";
+  });
+
+  console.log("Game Reset! New word selected.");
 }
+
+document.getElementById("resetBtn").addEventListener("click", gameReset);
 
 let currentRowIndex = 0;
 let currentWord = "";
@@ -56,6 +73,10 @@ function handleInput(key) {
       guesses += 1;
       if (correct == 5) {
         setTimeout(() => winner(), 500);
+        return;
+      }
+      if (currentRowIndex === 6) {
+        loser();
       }
     } else {
       alert("Not enough letters!");
@@ -110,4 +131,8 @@ function checkGuess() {
 
 function winner() {
   alert("You Won!");
+}
+
+function loser() {
+  alert(`You Lost! The word was ${secretWord}`);
 }
