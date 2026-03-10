@@ -32,10 +32,10 @@ function gameReset() {
   cells.forEach((cell) => {
     cell.textContent = "";
     cell.style.background = "rgb(97, 97, 97)";
-    cell.style.color = "black";
   });
 
   console.log("Game Reset! New word selected.");
+  isGameOver = false;
 }
 
 document.getElementById("resetBtn").addEventListener("click", gameReset);
@@ -44,8 +44,13 @@ let currentRowIndex = 0;
 let currentWord = "";
 let currentCellIndex = 0;
 let guesses = 0;
+let isGameOver = false;
 
 function handleInput(key) {
+  if (isGameOver) {
+    return;
+  }
+
   const rows = document.querySelectorAll(".gameRow");
   const currentRow = rows[currentRowIndex];
   const cells = currentRow.querySelectorAll(".rowCell");
@@ -72,11 +77,14 @@ function handleInput(key) {
       currentCellIndex = 0;
       guesses += 1;
       if (correct == 5) {
+        isGameOver = true;
         setTimeout(() => winner(), 500);
         return;
       }
       if (currentRowIndex === 6) {
-        loser();
+        isGameOver = true;
+        setTimeout(() => loser(), 500);
+        return;
       }
     } else {
       alert("Not enough letters!");
