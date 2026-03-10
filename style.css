@@ -41,6 +41,8 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
+  color: white;
+  font-family: 'Franklin Gothic Medium',sans-serif;
   font-weight: bold;
   text-transform: uppercase;
 }
