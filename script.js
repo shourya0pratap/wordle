@@ -2,6 +2,7 @@ import { WORDS } from "./words.js";
 
 const gameArea = document.getElementById("gameArea");
 let secretWord = "";
+let activeTimers = [];
 
 function gameStart() {
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
@@ -32,6 +33,8 @@ function gameReset() {
   currentCellIndex = 0;
   guesses = 0;
   isGameOver = false;
+  activeTimers.forEach((id) => clearTimeout(id));
+  activeTimers = [];
 
   // 2. Clear the UI by removing all children
   gameArea.innerHTML = "";
@@ -44,6 +47,11 @@ function gameReset() {
 }
 
 document.getElementById("resetBtn").addEventListener("click", gameReset);
+document.getElementById("resetBtn").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+  }
+});
 
 let currentRowIndex = 0;
 let currentWord = "";
@@ -148,9 +156,12 @@ function winner(rowIndex) {
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
   winningCells.forEach((cell, i) => {
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       cell.classList.add("winner");
     }, i * 100);
+
+    activeTimers.push(timerId);
+
     cell.addEventListener(
       "animationend",
       () => {
