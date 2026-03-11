@@ -5,6 +5,11 @@ let secretWord = "";
 
 function gameStart() {
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+  secretWord = "HELLO";
+  createGrid();
+}
+
+function createGrid() {
   for (let i = 0; i < 6; i++) {
     const gameRow = document.createElement("div");
     gameRow.classList.add("gameRow");
@@ -26,16 +31,16 @@ function gameReset() {
   currentWord = "";
   currentCellIndex = 0;
   guesses = 0;
-
-  // 2. Clear the UI
-  const cells = document.querySelectorAll(".rowCell");
-  cells.forEach((cell) => {
-    cell.textContent = "";
-    cell.style.background = "rgb(97, 97, 97)";
-  });
-
-  console.log("Game Reset! New word selected.");
   isGameOver = false;
+
+  // 2. Clear the UI by removing all children
+  gameArea.innerHTML = "";
+
+  // 3. Re-run the loop that builds the grid
+  // (Moving the loop logic into a function makes this easy)
+  createGrid();
+
+  console.log("Game Reset! All old listeners and styles purged.");
 }
 
 document.getElementById("resetBtn").addEventListener("click", gameReset);
@@ -67,10 +72,12 @@ function handleInput(key) {
 
   // 2. Handle Enter (Submit Guess)
   if (key === "Enter") {
+    console.log(isGameOver, currentRowIndex, currentCellIndex);
     if (currentCellIndex === 5) {
       let { result, correct } = checkGuess();
       for (let i = 0; i < 5; i++) {
         cells[i].style.background = `${result[i]}`;
+        cells[i].style.borderColor = `${result[i]}`;
       }
       currentWord = "";
       currentRowIndex++;
@@ -140,9 +147,18 @@ function checkGuess() {
 function winner(rowIndex) {
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
-  for (let i = 0; i < 5; i++) {
-    setTimeout(() => winningCells[i].classList.add("winner"), 750 * (i + 1));
-  }
+  winningCells.forEach((cell, i) => {
+    setTimeout(() => {
+      cell.classList.add("winner");
+    }, i * 100);
+    cell.addEventListener(
+      "animationend",
+      () => {
+        cell.classList.remove("winner");
+      },
+      { once: true },
+    );
+  });
 }
 
 function loser() {

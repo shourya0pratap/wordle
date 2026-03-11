@@ -42,7 +42,7 @@ body {
   align-items: center;
   font-size: 2rem;
   color: white;
-  font-family: 'Franklin Gothic Medium',sans-serif;
+  font-family: "Franklin Gothic Medium", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -65,12 +65,26 @@ body {
 }
 
 #resetBtn:hover {
-  background: rgba(255, 238, 0, 0.710);
+  background: rgba(255, 238, 0, 0.71);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 #resetBtn:active {
   transform: translateY(0);
-  background: rgba(0, 255, 42, 0.710);
+  background: rgba(0, 255, 42, 0.71);
+}
+
+.winner {
+  animation: win 0.5s ease;
+}
+
+@keyframes win {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
