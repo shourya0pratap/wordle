@@ -78,7 +78,7 @@ function handleInput(key) {
       guesses += 1;
       if (correct == 5) {
         isGameOver = true;
-        setTimeout(() => winner(), 500);
+        setTimeout(() => winner(currentRowIndex - 1), 500);
         return;
       }
       if (currentRowIndex === 6) {
@@ -137,8 +137,12 @@ function checkGuess() {
   return { result, correct };
 }
 
-function winner() {
-  alert("You Won!");
+function winner(rowIndex) {
+  const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
+  const winningCells = winningRow.querySelectorAll(".rowCell");
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => winningCells[i].classList.add("winner"), 750 * (i + 1));
+  }
 }
 
 function loser() {
