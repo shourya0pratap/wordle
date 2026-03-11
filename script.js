@@ -6,7 +6,6 @@ let activeTimers = [];
 
 function gameStart() {
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
-  secretWord = "HELLO";
   createGrid();
 }
 
@@ -40,7 +39,6 @@ function gameReset() {
   gameArea.innerHTML = "";
 
   // 3. Re-run the loop that builds the grid
-  // (Moving the loop logic into a function makes this easy)
   createGrid();
 
   console.log("Game Reset! All old listeners and styles purged.");
@@ -80,7 +78,6 @@ function handleInput(key) {
 
   // 2. Handle Enter (Submit Guess)
   if (key === "Enter") {
-    console.log(isGameOver, currentRowIndex, currentCellIndex);
     if (currentCellIndex === 5) {
       let { result, correct } = checkGuess();
       for (let i = 0; i < 5; i++) {
