@@ -45,7 +45,7 @@ body {
   font-family: "Franklin Gothic Medium", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
-  transition: 0.5s all ease-in-out; 
+  transition: 0.5s all ease-in-out;
 }
 
 #resetBtn {
@@ -88,4 +88,57 @@ body {
   50% {
     transform: translateY(-20px);
   }
+}
+
+#keyboard {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.key {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  padding: 15px 10px;
+  min-width: 35px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.key.large {
+  min-width: 65px;
+}
+
+.key:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.key.correct {
+  background: #538d4e !important;
+  border-color: #538d4e;
+}
+.key.present {
+  background: #b59f3b !important;
+  border-color: #b59f3b;
+}
+.key.absent {
+  background: #3a3a3c !important;
+  border-color: #3a3a3c;
 }
