@@ -25,23 +25,30 @@ function createGrid() {
 gameStart();
 
 function gameReset() {
-  // 1. Reset logic variables
+  // 1. Clear timers and game state
+  activeTimers.forEach((id) => clearTimeout(id));
+  activeTimers = [];
+
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   currentRowIndex = 0;
   currentWord = "";
   currentCellIndex = 0;
   guesses = 0;
   isGameOver = false;
-  activeTimers.forEach((id) => clearTimeout(id));
-  activeTimers = [];
 
-  // 2. Clear the UI by removing all children
-  gameArea.innerHTML = "";
+  // 2. Clear Grid
+  const cells = document.querySelectorAll(".rowCell");
+  cells.forEach((cell) => {
+    cell.textContent = "";
+    cell.style.background = ""; // Reverts to CSS default (rgb(97, 97, 97))
+    cell.style.borderColor = "";
+    cell.classList.remove("winner");
+  });
 
-  // 3. Re-run the loop that builds the grid
-  createGrid();
-
-  console.log("Game Reset! All old listeners and styles purged.");
+  // 3. Clear Keyboard Colors
+  document.querySelectorAll(".key").forEach((key) => {
+    key.classList.remove("correct", "present", "absent");
+  });
 }
 
 document.getElementById("resetBtn").addEventListener("click", gameReset);
@@ -58,9 +65,7 @@ let guesses = 0;
 let isGameOver = false;
 
 function handleInput(key) {
-  if (isGameOver) {
-    return;
-  }
+  if (isGameOver) return;
 
   const rows = document.querySelectorAll(".gameRow");
   const currentRow = rows[currentRowIndex];
@@ -79,25 +84,41 @@ function handleInput(key) {
   // 2. Handle Enter (Submit Guess)
   if (key === "Enter") {
     if (currentCellIndex === 5) {
+      // Logic for word validation (Optional but recommended)
+      if (!WORDS.includes(currentWord)) {
+        alert("Not in word list!");
+        return;
+      }
+
       let { result, correct } = checkGuess();
+      const guessToColor = currentWord; // Capture currentWord before we clear it
+
+      // Staggered reveal of colors
       for (let i = 0; i < 5; i++) {
-        setTimeout(() => {
+        const timerId = setTimeout(() => {
           cells[i].style.background = `${result[i]}`;
           cells[i].style.borderColor = `${result[i]}`;
+
+          // Update corresponding keyboard key color
+          updateKeyboardKey(guessToColor[i], result[i]);
         }, 200 * i);
+        activeTimers.push(timerId);
       }
+
       currentWord = "";
       currentRowIndex++;
       currentCellIndex = 0;
       guesses += 1;
+
       if (correct == 5) {
         isGameOver = true;
-        setTimeout(() => winner(currentRowIndex - 1), 500);
+        // Wait for all tiles to finish coloring before bouncing (200ms * 5 = 1000ms)
+        setTimeout(() => winner(currentRowIndex - 1), 1200);
         return;
       }
       if (currentRowIndex === 6) {
         isGameOver = true;
-        setTimeout(() => loser(), 500);
+        setTimeout(() => loser(), 1200);
         return;
       }
     } else {
@@ -107,12 +128,39 @@ function handleInput(key) {
   }
 
   // 3. Handle Letters (A-Z)
-  // This Regex ensures only single letters are accepted
   if (key.length === 1 && key.match(/[a-z]/i)) {
     if (currentCellIndex < 5) {
       cells[currentCellIndex].textContent = key.toUpperCase();
       currentWord += key.toUpperCase();
       currentCellIndex++;
+    }
+  }
+}
+
+// Helper function to update virtual keyboard colors
+function updateKeyboardKey(letter, color) {
+  const keyElement = document.querySelector(
+    `.key[data-key="${letter.toUpperCase()}"]`,
+  );
+  if (!keyElement) return;
+
+  // Priority logic: Green > Yellow > Gray
+  if (color === "#538d4e") {
+    // Green
+    keyElement.classList.remove("present", "absent");
+    keyElement.classList.add("correct");
+  } else if (color === "#b59f3b") {
+    // Yellow
+    if (!keyElement.classList.contains("correct")) {
+      keyElement.classList.add("present");
+    }
+  } else {
+    // Gray
+    if (
+      !keyElement.classList.contains("correct") &&
+      !keyElement.classList.contains("present")
+    ) {
+      keyElement.classList.add("absent");
     }
   }
 }
@@ -155,9 +203,12 @@ function winner(rowIndex) {
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
   winningCells.forEach((cell, i) => {
-    const timerId = setTimeout(() => {
-      cell.classList.add("winner");
-    }, 1000 + i * 100);
+    const timerId = setTimeout(
+      () => {
+        cell.classList.add("winner");
+      },
+      1000 + i * 100,
+    );
 
     activeTimers.push(timerId);
 
@@ -174,3 +225,11 @@ function winner(rowIndex) {
 function loser() {
   alert(`You Lost! The word was ${secretWord}`);
 }
+
+document.querySelectorAll(".key").forEach((button) => {
+  button.addEventListener("click", () => {
+    const key = button.getAttribute("data-key");
+    handleInput(key);
+    button.blur();
+  });
+});
