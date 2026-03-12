@@ -81,8 +81,10 @@ function handleInput(key) {
     if (currentCellIndex === 5) {
       let { result, correct } = checkGuess();
       for (let i = 0; i < 5; i++) {
-        cells[i].style.background = `${result[i]}`;
-        cells[i].style.borderColor = `${result[i]}`;
+        setTimeout(() => {
+          cells[i].style.background = `${result[i]}`;
+          cells[i].style.borderColor = `${result[i]}`;
+        }, 200 * i);
       }
       currentWord = "";
       currentRowIndex++;
@@ -155,7 +157,7 @@ function winner(rowIndex) {
   winningCells.forEach((cell, i) => {
     const timerId = setTimeout(() => {
       cell.classList.add("winner");
-    }, i * 100);
+    }, 1000 + i * 100);
 
     activeTimers.push(timerId);
 

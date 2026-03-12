@@ -45,6 +45,7 @@ body {
   font-family: "Franklin Gothic Medium", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
+  transition: 0.5s all ease-in-out; 
 }
 
 #resetBtn {
