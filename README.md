@@ -61,3 +61,6 @@ git clone https://github.com/shourya0pratap/wordle
 [ ] **Statistics:** Persistent storage via localStorage to track win streaks.
 
 [ ] **Daily Word:** Synchronized "Word of the Day" using a timestamp-based seed for the randomizer.
+
+## Documentation
+- [Changelog](./CHANGELOG.md) 
