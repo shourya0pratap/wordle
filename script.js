@@ -1,12 +1,31 @@
 import { WORDS } from "./words.js";
 
 const gameArea = document.getElementById("gameArea");
+const scoreBoard = document.getElementById("scoreBoard");
 let secretWord = "";
 let activeTimers = [];
+let current_score = 0;
 
 function gameStart() {
+  current_score = getScore();
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   createGrid();
+  scoreBoard.innerHTML = `<pre>Score:\n${current_score}</pre>`;
+}
+
+function getScore() {
+  let score = localStorage.getItem("score");
+  if (!score) {
+    localStorage.setItem("score", "0");
+    return 0;
+  }
+  return parseInt(score, 10);
+}
+
+function setScore() {
+  current_score += 1;
+  localStorage.setItem("score", current_score.toString());
+  scoreBoard.innerHTML = `<pre>Score:\n${current_score}</pre>`;
 }
 
 function createGrid() {
@@ -200,21 +219,13 @@ function checkGuess() {
 }
 
 function winner(rowIndex) {
-  let current_score = localStorage.getItem("score");
-  if (!current_score) {
-    localStorage.setItem("score", 1);
-  } else {
-    localStorage.setItem("score", Number(current_score) + 1);
-  }
+  setScore();
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
   winningCells.forEach((cell, i) => {
-    const timerId = setTimeout(
-      () => {
-        cell.classList.add("winner");
-      },
-      1000 + i * 100,
-    );
+    const timerId = setTimeout(() => {
+      cell.classList.add("winner");
+    }, i * 100);
 
     activeTimers.push(timerId);
 

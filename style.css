@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 body {
+  position: relative;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -141,4 +142,20 @@ body {
 .key.absent {
   background: #3a3a3c !important;
   border-color: #3a3a3c;
+}
+
+#scoreBoard {
+  height: 150px;
+  width: 200px;
+  position: absolute;
+  color: white;
+  font-size: 3rem;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  align-content: center;
+  top: 5%;
+  right: 5%;
+  background: linear-gradient(#3d3d3d , #2c2c2c);
+  border: 2px solid black;
+  border-radius: 15px;
 }
