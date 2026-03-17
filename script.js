@@ -200,6 +200,12 @@ function checkGuess() {
 }
 
 function winner(rowIndex) {
+  let current_score = localStorage.getItem("score");
+  if (!current_score) {
+    localStorage.setItem("score", 1);
+  } else {
+    localStorage.setItem("score", Number(current_score) + 1);
+  }
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
   winningCells.forEach((cell, i) => {
