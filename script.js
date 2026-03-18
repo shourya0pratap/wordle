@@ -5,12 +5,14 @@ const scoreBoard = document.getElementById("scoreBoard");
 let secretWord = "";
 let activeTimers = [];
 let current_score = 0;
+let current_streak = 0;
 
 function gameStart() {
   current_score = getScore();
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   createGrid();
-  scoreBoard.innerHTML = `<pre>Score:\n${current_score}</pre>`;
+  scoreBoard.innerHTML = `<pre>Score:${current_score}</pre>
+  <pre>Streak:${current_streak}</pre>`;
 }
 
 function getScore() {
@@ -26,6 +28,15 @@ function setScore() {
   current_score += 1;
   localStorage.setItem("score", current_score.toString());
   scoreBoard.innerHTML = `<pre>Score:\n${current_score}</pre>`;
+}
+
+function setStreak() {
+  current_streak += 1;
+  let max_streak = parseInt(localStorage.getItem("max_streak"), 10);
+  if (max_streak < current_streak) {
+    localStorage.setItem("max_streak", current_streak.toString());
+  }
+  scoreBoard.innerHTML += `<pre>Streak:\n${current_streak}</pre>`;
 }
 
 function createGrid() {
@@ -220,6 +231,7 @@ function checkGuess() {
 
 function winner(rowIndex) {
   setScore();
+  setStreak();
   const winningRow = document.querySelectorAll(".gameRow")[rowIndex];
   const winningCells = winningRow.querySelectorAll(".rowCell");
   winningCells.forEach((cell, i) => {
@@ -240,6 +252,7 @@ function winner(rowIndex) {
 }
 
 function loser() {
+  current_streak = 0;
   alert(`You Lost! The word was ${secretWord}`);
 }
 
