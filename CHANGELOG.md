@@ -13,6 +13,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Added a fully functional scoring system.
 
-## [0.11.0] - 2026-03-18
+## [0.12.0] - 2026-03-18
 ### Added
 - Added a fully functional streak system.
+
+## [0.12.5] - 2026-03-18
+### Modified
+- Updated styling for streaks.
