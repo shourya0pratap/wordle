@@ -12,3 +12,7 @@ All notable changes to this project will be documented in this file.
 ## [0.11.0] - 2026-03-17
 ### Added
 - Added a fully functional scoring system.
+
+## [0.11.0] - 2026-03-18
+### Added
+- Added a fully functional streak system.
