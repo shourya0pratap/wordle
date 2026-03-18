@@ -11,8 +11,7 @@ function gameStart() {
   current_score = getScore();
   secretWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   createGrid();
-  scoreBoard.innerHTML = `<pre>Score:${current_score}</pre>
-  <pre>Streak:${current_streak}</pre>`;
+  scoreBoard.innerHTML = `Score:${current_score}<br>Streak:${current_streak}`;
 }
 
 function getScore() {
@@ -27,7 +26,7 @@ function getScore() {
 function setScore() {
   current_score += 1;
   localStorage.setItem("score", current_score.toString());
-  scoreBoard.innerHTML = `<pre>Score:\n${current_score}</pre>`;
+  scoreBoard.innerHTML = `Score:${current_score}<br>`;
 }
 
 function setStreak() {
@@ -36,7 +35,7 @@ function setStreak() {
   if (max_streak < current_streak) {
     localStorage.setItem("max_streak", current_streak.toString());
   }
-  scoreBoard.innerHTML += `<pre>Streak:\n${current_streak}</pre>`;
+  scoreBoard.innerHTML += `Streak:${current_streak}`;
 }
 
 function createGrid() {
